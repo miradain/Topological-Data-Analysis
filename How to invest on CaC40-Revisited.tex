@@ -1,0 +1,1148 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+    \usepackage{iftex}
+    \ifPDFTeX
+    	\usepackage[T1]{fontenc}
+    	\usepackage{mathpazo}
+    \else
+    	\usepackage{fontspec}
+    \fi
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range
+    \makeatletter % fix for grffile with XeLaTeX
+    \def\Gread@@xetex#1{%
+      \IfFileExists{"\Gin@base".bb}%
+      {\Gread@eps{\Gin@base.bb}}%
+      {\Gread@@xetex@aux#1}%
+    }
+    \makeatother
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{How to invest on CaC40}
+   \author{Miradain Atontsa ( miradain.atontsan@gmail.com ) }    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb. 
+    \makeatletter
+        \newbox\Wrappedcontinuationbox 
+        \newbox\Wrappedvisiblespacebox 
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}} 
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}} 
+        \newcommand*\Wrappedcontinuationindent {3ex } 
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox} 
+        % Take advantage of the already applied Pygments mark-up to insert 
+        % potential linebreaks for TeX processing. 
+        %        {, <, #, %, $, ' and ": go to next line. 
+        %        _, }, ^, &, >, - and ~: stay at end of broken line. 
+        % Use of \textquotesingle for straight quote. 
+        \newcommand*\Wrappedbreaksatspecials {% 
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}% 
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}% 
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}% 
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}% 
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}% 
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}% 
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}% 
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}% 
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}% 
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}% 
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}% 
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}% 
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}% 
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}% 
+        } 
+        % Some characters . , ; ? ! / are not pygmentized. 
+        % This macro makes them "active" and they will insert potential linebreaks 
+        \newcommand*\Wrappedbreaksatpunct {% 
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}% 
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}% 
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}% 
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}% 
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}% 
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}% 
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}% 
+            \catcode`\.\active
+            \catcode`\,\active 
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active 
+            \lccode`\~`\~ 	
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+        
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active 	
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+    
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        \ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    If you wanted to invest on CaC40, what should be your strategy? Should
+you invest on the benchmark index or rather selecting a couple of
+companies from the index?
+
+It is always difficult to build a diversified portfolio that beat the
+benchmark index. In the literature, the theory named ``Enhanced
+Indexing'' is meant to address this problem. In this paper, we present
+an alternative to traditional methods using topological data analysis
+(TDA). More precisely, we study the CaC40 index and build two portfolios
+that beat this benchmark index according to the profile risk appetite.
+
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+%\prompt{In}{incolor}{61}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{pandas\PYZus{}datareader} \PY{k}{as} \PY{n+nn}{pdr}
+\PY{k+kn}{import} \PY{n+nn}{datetime} 
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt} 
+\PY{k+kn}{import} \PY{n+nn}{statsmodels}\PY{n+nn}{.}\PY{n+nn}{api} \PY{k}{as} \PY{n+nn}{sm}
+\PY{k+kn}{from} \PY{n+nn}{yahoo\PYZus{}fin} \PY{k+kn}{import} \PY{n}{stock\PYZus{}info} \PY{k}{as} \PY{n}{si} 
+\end{Verbatim}
+\end{tcolorbox}
+
+
+
+    \hypertarget{loading-the-data-from-yahoo-finance}{%
+\section{Loading the data from Yahoo
+Finance}\label{loading-the-data-from-yahoo-finance}}
+
+\begin{itemize}
+\tightlist
+\item
+  Extracting data function
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+%\prompt{In}{incolor}{62}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{get}\PY{p}{(}\PY{n}{tickers}\PY{p}{,} \PY{n}{startdate}\PY{p}{,} \PY{n}{enddate}\PY{p}{)}\PY{p}{:}
+  \PY{k}{def} \PY{n+nf}{data}\PY{p}{(}\PY{n}{ticker}\PY{p}{)}\PY{p}{:}
+    \PY{k}{return} \PY{p}{(}\PY{n}{pdr}\PY{o}{.}\PY{n}{get\PYZus{}data\PYZus{}yahoo}\PY{p}{(}\PY{n}{ticker}\PY{p}{,} \PY{n}{start}\PY{o}{=}\PY{n}{startdate}\PY{p}{,} \PY{n}{end}\PY{o}{=}\PY{n}{enddate}\PY{p}{)}\PY{p}{)}
+  \PY{n}{datas} \PY{o}{=} \PY{n+nb}{map} \PY{p}{(}\PY{n}{data}\PY{p}{,} \PY{n}{tickers}\PY{p}{)}
+  \PY{k}{return}\PY{p}{(}\PY{n}{pd}\PY{o}{.}\PY{n}{concat}\PY{p}{(}\PY{n}{datas}\PY{p}{,} \PY{n}{keys}\PY{o}{=}\PY{n}{tickers}\PY{p}{,} \PY{n}{names}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Ticker}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{itemize}
+\tightlist
+\item
+  The 30 most important stocks in the CaC40 index
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+%\prompt{In}{incolor}{58}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{tickers}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SGO.PA}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RI.PA}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}  \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{LR.PA}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{EN.PA}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AI.PA}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{HO.PA}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ML.PA}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{VIV.PA}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AIR.PA}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ACA.PA}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ENGI.PA}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ATO.PA}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{BN.PA}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SW.PA}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{VIE.PA}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{BNP.PA}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SAN.PA}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{UG.PA}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{KER.PA}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{MC.PA}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ORA.PA}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GLE.PA}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SU.PA}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DG.PA}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OR.PA}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{CA.PA}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{CAP.PA}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AC.PA}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FP.PA}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{TEP.PA}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{itemize}
+\tightlist
+\item
+  Extracting the stock data from Yahoo Finance
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+%\prompt{In}{incolor}{63}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Get the stock data}
+\PY{n}{data} \PY{o}{=} \PY{n}{get}\PY{p}{(}\PY{n}{tickers}\PY{p}{,} \PY{n}{datetime}\PY{o}{.}\PY{n}{datetime}\PY{p}{(}\PY{l+m+mi}{2005}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,} \PY{n}{datetime}\PY{o}{.}\PY{n}{datetime}\PY{p}{(}\PY{l+m+mi}{2020}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{,} \PY{l+m+mi}{30}\PY{p}{)}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Isolate the `Adj Close` values and transform the DataFrame}
+\PY{n}{portfolio} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Adj Close}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{o}{.}\PY{n}{reset\PYZus{}index}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{pivot}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Ticker}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Adj Close}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{itemize}
+\tightlist
+\item
+  Extracting the CaC40 index data from Yahoo Finance
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+%\prompt{In}{incolor}{64}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{ticker\PYZus{}cac40}\PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZca{}FCHI}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{portfolio\PYZus{}I} \PY{o}{=} \PY{n}{get}\PY{p}{(}\PY{n}{ticker\PYZus{}cac40}\PY{p}{,} \PY{n}{datetime}\PY{o}{.}\PY{n}{datetime}\PY{p}{(}\PY{l+m+mi}{2005}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,} \PY{n}{datetime}\PY{o}{.}\PY{n}{datetime}\PY{p}{(}\PY{l+m+mi}{2020}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{,} \PY{l+m+mi}{30}\PY{p}{)}\PY{p}{)}
+\PY{n}{index\PYZus{}I} \PY{o}{=} \PY{n}{portfolio\PYZus{}I}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Adj Close}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{o}{.}\PY{n}{reset\PYZus{}index}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{pivot}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Ticker}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Adj Close}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{itemize}
+\tightlist
+\item
+  Computing the (log) returns in the portfolio including the benchmark
+  index
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+%\prompt{In}{incolor}{66}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{asset\PYZus{}log\PYZus{}returns}\PY{p}{(}\PY{n}{index}\PY{p}{,} \PY{n}{portfolio}\PY{p}{)}\PY{p}{:}
+    \PY{n}{New\PYZus{}portfolio}\PY{o}{=} \PY{n}{portfolio}
+    \PY{n}{New\PYZus{}portfolio}\PY{p}{[}\PY{n}{index}\PY{p}{]}\PY{o}{=}\PY{n}{index\PYZus{}I}\PY{p}{[}\PY{n}{index}\PY{p}{]}
+    \PY{n}{asset\PYZus{}returns}\PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{log}\PY{p}{(}\PY{l+m+mi}{1} \PY{o}{+} \PY{n}{New\PYZus{}portfolio}\PY{o}{.}\PY{n}{pct\PYZus{}change}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{dropna}\PY{p}{(}\PY{p}{)}
+    \PY{k}{return} \PY{n}{asset\PYZus{}returns}
+
+\PY{n}{asset\PYZus{}returns}\PY{o}{=} \PY{n}{asset\PYZus{}log\PYZus{}returns}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZca{}FCHI}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{portfolio}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+
+
+    \hypertarget{topological-data-analysis-tda}{%
+\section{Topological data analysis
+(TDA)}\label{topological-data-analysis-tda}}
+
+Topological data analysis is a method invented to analyze data with a
+strong emphasis on its shape. This theory has sometimes been shown to be
+more robust than traditional methods and in some contexts it is used in
+combination with statistical data analysis methods. In addition, it
+offers excellent visualization tools for larger dimension data points.
+
+Topological data analysis studies the shape of the data from its point
+cloud (see the plot below).
+
+\[  \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{TDA_pipeline.jpg} \]
+
+Namely, from a point cloud data, we build a filtration by thickening the
+points to balls with larger and larger radius. As the radius of balls
+encreases, circles are created and then filled out. We records the date
+of birth and death of each ones. This is the topological information,
+also called ``Persistent diagram'' that we will next try to search the
+meaning. However this valuable information is not yet appropriate for a
+Data Science job. We have to construct a real data feature out of
+persistent diagram. This process is called ``Vectorization''. One way of
+vectorizing persistent diagrams (as shown in the plot, bottom right)
+consists of gluing together isosceles right triangles built on each
+features. This is called ``Persistent Landscape''.
+
+In general topological data analysis has the following pipeline:
+
+\[ \{ \text{Point cloud data }\} \Longrightarrow  \{ \text{Persistent Diagrams }\}  \Longrightarrow  \{ \text{Vectorization }\}  \Longrightarrow  \{ \text{ Data Science }\}\]
+
+    \hypertarget{implementation-of-tda-in-finance}{%
+\section{Implementation of TDA in
+finance}\label{implementation-of-tda-in-finance}}
+
+In finance, TDA has a longer pipeline:
+
+\[ \{ \text{Data processing }\} \Longrightarrow  \{ \text{Point cloud data }\} \Longrightarrow  \{ \text{Persistent Diagrams }\}  \Longrightarrow  \{ \text{Vectorization }\}   \Downarrow \]
+
+\ \ \ \ \ \ \ \ \ \ \ \  \ \ \ \ \ \ \ \ \ \ \ \   \ \ \ \ \ \ \ \ \ \ \ \  \[ \Longrightarrow  \{ \text{ Portfolio constructions}\}\]
+
+
+We will now briefly explain each step.
+
+\begin{itemize}
+\tightlist
+\item
+  Data processing = Taken's embedding.
+\end{itemize}
+
+Financial stock data are essentially one dimensional ( time series )
+data. Thus we don't have yet a point cloud for TDA analysis. We will use
+the Taken's embedding theorem to transform the stock data into a point
+cloud in \(\mathbb{R}^{d}\) for some integer \(d;\)
+
+\begin{itemize}
+\tightlist
+\item
+  Persistent Diagrams = Use python's TDA library.
+\end{itemize}
+
+We will use the TDA-python library ``Ripser'' to compute the persistent
+diagram.
+
+\begin{itemize}
+\tightlist
+\item
+  Vectorization = Persistent landscape + \(L^p\) norm series.
+\end{itemize}
+
+Normally a single point cloud data produces a single persistent diagram
+and then a single persistent landscape. We will use the sliding window
+technic to get a series of persistent landscapes. Moreover, knowing that
+the persistent landscapes form a subset of the banach space
+\(L^p(\mathbb{N} \times \mathbb{R}),\) we can compute the \(L^p\) norm
+for each persistent landscape. Therefore we get a series of norm values
+which is now the topological feature to consider for data analysis.
+
+\begin{itemize}
+\tightlist
+\item
+  Financial analysis = Use the topological feature to analyze the stocks
+  and build portfolios.
+\end{itemize}
+
+Roughly speaking we will only keep assets having highest or lowest
+\(L^p\) norm.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+%\prompt{In}{incolor}{71}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Loading the library for topological data analysis}
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{k+kn}{from} \PY{n+nn}{ripser} \PY{k+kn}{import} \PY{n}{ripser}
+\PY{k+kn}{from} \PY{n+nn}{persim} \PY{k+kn}{import} \PY{n}{plot\PYZus{}diagrams}
+\end{Verbatim}
+\end{tcolorbox}
+
+    The functions that we will define in this part will have the following
+arguments:
+
+ts\_data = time serie data;
+
+p = the level of the norm \(L^{p}\);
+
+d1 = sliding window width;
+
+d = the dimension of the embedding space;
+
+tho = the speed of the sliding windows: the number of days to skip
+between windows;
+
+resolution = resolution in the approximation of persistent landscape;
+
+x\_max = the upper bound of the intervall defining the steps;
+
+x\_min = the lower bound of the intervall defining the steps;
+
+nb\_landscapes = The number of persistent landscapes to consider.
+
+    \hypertarget{data-processing}{%
+\subsubsection{Data processing}\label{data-processing}}
+
+\begin{itemize}
+\tightlist
+\item
+  Creation of point cloud data
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+%\prompt{In}{incolor}{72}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{takenEmbedding}\PY{p}{(}\PY{n}{ts\PYZus{}data}\PY{p}{,}\PY{n}{d1}\PY{p}{,}\PY{n}{d}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{tho}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{:}
+    \PY{n}{array}\PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{ts\PYZus{}data}\PY{p}{)}
+    \PY{n}{dic}\PY{o}{=}\PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+    \PY{k}{if} \PY{n}{d1}\PY{o}{\PYZhy{}}\PY{p}{(}\PY{n}{d}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}\PY{o}{*}\PY{n}{tho} \PY{o}{\PYZlt{}} \PY{l+m+mi}{0}\PY{p}{:}
+        \PY{k}{raise} \PY{n+ne}{ValueError}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{the time serie len is too small}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{k}{else}\PY{p}{:}
+        \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{d}\PY{p}{)}\PY{p}{:}
+            \PY{n}{dic}\PY{p}{[}\PY{n+nb}{str}\PY{p}{(}\PY{n}{i}\PY{p}{)}\PY{p}{]}\PY{o}{=} \PY{n}{array}\PY{p}{[}\PY{n}{i}\PY{o}{*}\PY{n}{tho}\PY{p}{:} \PY{n}{d1}\PY{o}{\PYZhy{}}\PY{p}{(}\PY{n}{d}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}\PY{o}{*}\PY{n}{tho}\PY{o}{+}\PY{n}{i}\PY{o}{*}\PY{n}{tho}\PY{p}{]}
+    \PY{n}{df}\PY{o}{=}\PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{dic}\PY{p}{)}
+    \PY{k}{return} \PY{n}{df}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{vectorization}{%
+\subsubsection{Vectorization}\label{vectorization}}
+
+\begin{itemize}
+\tightlist
+\item
+  The persistence landscape function
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+%\prompt{In}{incolor}{73}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{landscapes\PYZus{}approx}\PY{p}{(}\PY{n}{Persistent\PYZus{}diagram}\PY{p}{,}\PY{n}{x\PYZus{}min}\PY{p}{,}\PY{n}{x\PYZus{}max}\PY{p}{,}\PY{n}{resolution}\PY{p}{,}\PY{n}{nb\PYZus{}landscapes}\PY{p}{)}\PY{p}{:}
+    \PY{n}{landscape} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{n}{nb\PYZus{}landscapes}\PY{p}{,}\PY{n}{nb\PYZus{}steps}\PY{p}{)}\PY{p}{)}
+    \PY{n}{step} \PY{o}{=} \PY{p}{(}\PY{n}{x\PYZus{}max} \PY{o}{\PYZhy{}} \PY{n}{x\PYZus{}min}\PY{p}{)} \PY{o}{/} \PY{n}{resolution}
+    \PY{c+c1}{\PYZsh{}Warning: naive and not the best way to proceed!!!!!}
+    \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{nb\PYZus{}steps}\PY{p}{)}\PY{p}{:}
+        \PY{n}{x} \PY{o}{=} \PY{n}{x\PYZus{}min} \PY{o}{+} \PY{n}{i} \PY{o}{*} \PY{n}{step}
+        \PY{n}{event\PYZus{}list} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+        \PY{k}{for} \PY{n}{pair} \PY{o+ow}{in} \PY{n}{Persistent\PYZus{}diagram}\PY{p}{:}
+            \PY{n}{b} \PY{o}{=} \PY{n}{pair}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+            \PY{n}{d} \PY{o}{=} \PY{n}{pair}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+            \PY{k}{if} \PY{p}{(}\PY{n}{b} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{n}{x}\PY{p}{)} \PY{o+ow}{and} \PY{p}{(}\PY{n}{x}\PY{o}{\PYZlt{}}\PY{o}{=} \PY{n}{d}\PY{p}{)}\PY{p}{:}
+                \PY{k}{if} \PY{n}{x} \PY{o}{\PYZgt{}}\PY{o}{=} \PY{p}{(}\PY{n}{d}\PY{o}{+}\PY{n}{b}\PY{p}{)}\PY{o}{/}\PY{l+m+mf}{2.} \PY{p}{:}
+                    \PY{n}{event\PYZus{}list}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{(}\PY{n}{d}\PY{o}{\PYZhy{}}\PY{n}{x}\PY{p}{)}\PY{p}{)}
+                \PY{k}{else}\PY{p}{:}
+                    \PY{n}{event\PYZus{}list}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{(}\PY{n}{x}\PY{o}{\PYZhy{}}\PY{n}{b}\PY{p}{)}\PY{p}{)}
+        \PY{n}{event\PYZus{}list}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{reverse}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+        \PY{n}{event\PYZus{}list} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{event\PYZus{}list}\PY{p}{)}
+        \PY{k}{for} \PY{n}{j} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{nb\PYZus{}landscapes}\PY{p}{)}\PY{p}{:}
+            \PY{k}{if}\PY{p}{(}\PY{n}{j}\PY{o}{\PYZlt{}}\PY{n+nb}{len}\PY{p}{(}\PY{n}{event\PYZus{}list}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+                \PY{n}{landscape}\PY{p}{[}\PY{n}{j}\PY{p}{,}\PY{n}{i}\PY{p}{]}\PY{o}{=}\PY{n}{event\PYZus{}list}\PY{p}{[}\PY{n}{j}\PY{p}{]}
+    \PY{k}{return} \PY{n}{landscape}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{itemize}
+\tightlist
+\item
+  The \(L^p\) norm series function
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+%\prompt{In}{incolor}{74}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} The Lp\PYZhy{}norm serie function of a given asset}
+\PY{k}{def} \PY{n+nf}{lp\PYZus{}norm\PYZus{}series}\PY{p}{(}\PY{n}{ts\PYZus{}data}\PY{p}{,}\PY{n}{p}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,}\PY{n}{d1}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{,}\PY{n}{d}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{tho}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{resolution}\PY{o}{=}\PY{l+m+mi}{1000}\PY{p}{,} \PY{n}{x\PYZus{}max} \PY{o}{=} \PY{l+m+mf}{0.1}\PY{p}{)}\PY{p}{:}
+  
+    \PY{c+c1}{\PYZsh{} The Lp norm function for a single persistent landscape}
+    \PY{k}{def} \PY{n+nf}{lp\PYZus{}norm}\PY{p}{(}\PY{n}{landscape}\PY{p}{,}\PY{n}{p}\PY{p}{)}\PY{p}{:}
+        \PY{n}{eta}\PY{o}{=} \PY{n}{landscape}\PY{o}{*}\PY{o}{*}\PY{n}{p}
+        \PY{n}{norm}\PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{eta}\PY{p}{)}
+        \PY{k}{return} \PY{n}{norm}
+    
+    \PY{n}{N}\PY{o}{=} \PY{n+nb}{len}\PY{p}{(}\PY{n}{ts\PYZus{}data}\PY{p}{)}
+    \PY{n}{norm\PYZus{}series}\PY{o}{=}\PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{H0}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{n}{N}\PY{o}{\PYZhy{}}\PY{n}{d1}\PY{p}{)}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{H1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{n}{N}\PY{o}{\PYZhy{}}\PY{n}{d1}\PY{p}{)}\PY{p}{\PYZcb{}}
+    \PY{k}{for} \PY{n}{k} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{N}\PY{p}{)}\PY{p}{:}
+        \PY{k}{if} \PY{n}{N}\PY{o}{\PYZhy{}}\PY{n}{k}\PY{o}{\PYZgt{}}\PY{n}{d1}\PY{p}{:}
+            \PY{n}{data}\PY{o}{=}\PY{n}{takenEmbedding}\PY{p}{(}\PY{n}{ts\PYZus{}data}\PY{p}{[}\PY{n}{k}\PY{p}{:}\PY{p}{]}\PY{p}{,}\PY{n}{d1}\PY{p}{,}\PY{n}{d}\PY{p}{,} \PY{n}{tho}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+            \PY{n}{diagrams} \PY{o}{=} \PY{n}{ripser}\PY{p}{(}\PY{n}{data}\PY{p}{)}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dgms}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+            \PY{n}{landscape0}\PY{o}{=} \PY{n}{landscapes\PYZus{}approx}\PY{p}{(}\PY{n}{diagrams}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{n}{x\PYZus{}max}\PY{p}{,}\PY{n}{resolution}\PY{p}{,}\PY{n+nb}{len}\PY{p}{(}\PY{n}{diagrams}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+            \PY{n}{landscape1}\PY{o}{=} \PY{n}{landscapes\PYZus{}approx}\PY{p}{(}\PY{n}{diagrams}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{n}{x\PYZus{}max}\PY{p}{,}\PY{n}{resolution}\PY{p}{,}\PY{n+nb}{len}\PY{p}{(}\PY{n}{diagrams}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+            \PY{n}{norm\PYZus{}series}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{H0}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{n}{k}\PY{p}{]}\PY{o}{=}\PY{n}{lp\PYZus{}norm}\PY{p}{(}\PY{n}{landscape0}\PY{p}{,}\PY{n}{p}\PY{p}{)}
+            \PY{n}{norm\PYZus{}series}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{H1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{n}{k}\PY{p}{]}\PY{o}{=}\PY{n}{lp\PYZus{}norm}\PY{p}{(}\PY{n}{landscape1}\PY{p}{,}\PY{n}{p}\PY{p}{)}
+    \PY{k}{return} \PY{n}{norm\PYZus{}series}
+
+
+\PY{c+c1}{\PYZsh{} The Lp\PYZhy{}norm serie function for the whole portfolio \PYZsq{}Bin\PYZsq{}. Note that dim=\PYZsq{}H0\PYZsq{} or \PYZsq{}H1\PYZsq{}}
+\PY{k}{def} \PY{n+nf}{norm\PYZus{}data}\PY{p}{(}\PY{n}{data}\PY{p}{,} \PY{n}{dim}\PY{p}{,} \PY{n}{Bin}\PY{p}{,}\PY{n}{p}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{d1}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{,}\PY{n}{d}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{tho}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{resolution}\PY{o}{=}\PY{l+m+mi}{1000}\PY{p}{,} \PY{n}{x\PYZus{}max} \PY{o}{=} \PY{l+m+mf}{0.1}\PY{p}{)}\PY{p}{:}
+    \PY{n}{norm\PYZus{}data}\PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+    \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{Bin}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+        \PY{n}{ts\PYZus{}data}\PY{o}{=}\PY{n}{data}\PY{p}{[}\PY{n}{Bin}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{]}
+        \PY{n}{norm\PYZus{}data}\PY{p}{[}\PY{n}{Bin}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{]}\PY{o}{=}\PY{n}{lp\PYZus{}norm\PYZus{}series}\PY{p}{(}\PY{n}{ts\PYZus{}data}\PY{p}{,} \PY{n}{p}\PY{p}{)}\PY{p}{[}\PY{n}{dim}\PY{p}{]}
+    \PY{k}{return} \PY{n}{norm\PYZus{}data}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{portfolio-constructions}{%
+\subsubsection{Portfolio constructions}\label{portfolio-constructions}}
+
+We classify assets by their norm values (more precisely, the difference
+between their last norm values and their norm mean values). We will next
+split the original portfolio into three sub-portfolios: a portfolio
+which contains the assets with highest norm values, a portfolio of
+assets with lowest norm values and finally and intermediate portfolio
+with the rest of assets.
+
+\begin{itemize}
+\tightlist
+\item
+  The TDA enhanced indexing function (TDA\_EI)
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+%\prompt{In}{incolor}{75}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{TDA\PYZus{}EI}\PY{p}{(}\PY{n}{asset\PYZus{}returns}\PY{p}{,} \PY{n}{tickers}\PY{p}{,} \PY{n}{dim}\PY{p}{,}\PY{n}{p}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{d1}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{,} \PY{n}{d}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{tho}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{:}
+    \PY{n}{diff\PYZus{}value}\PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+    \PY{k}{for} \PY{n}{asset} \PY{o+ow}{in} \PY{n}{tickers}\PY{p}{:}
+        \PY{c+c1}{\PYZsh{} Get the data of this asset}
+        \PY{n}{ts\PYZus{}data}\PY{o}{=}\PY{n}{asset\PYZus{}returns}\PY{p}{[}\PY{n}{asset}\PY{p}{]}
+        \PY{c+c1}{\PYZsh{} Compute the norm series of this asset}
+        \PY{n}{norm}\PY{o}{=}\PY{n}{lp\PYZus{}norm\PYZus{}series}\PY{p}{(}\PY{n}{ts\PYZus{}data}\PY{p}{,} \PY{n}{p}\PY{p}{,} \PY{n}{d1}\PY{p}{,} \PY{n}{d}\PY{p}{,} \PY{n}{tho}\PY{p}{)}\PY{p}{[}\PY{n}{dim}\PY{p}{]}
+        \PY{c+c1}{\PYZsh{} Find the difference between the last norm value and mean norm value}
+        \PY{n}{diff\PYZus{}value}\PY{p}{[}\PY{n}{asset}\PY{p}{]}\PY{o}{=} \PY{n}{norm}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{\PYZhy{}}\PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{norm}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{} Sort the diff values of each assets in ascending order}
+    \PY{n}{sorted\PYZus{}diff\PYZus{}value}\PY{o}{=} \PY{n+nb}{sorted}\PY{p}{(}\PY{n}{diff\PYZus{}value}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{key}\PY{o}{=} \PY{k}{lambda} \PY{n}{kv}\PY{p}{:}\PY{n}{kv}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{p}{)}
+    \PY{n}{N}\PY{o}{=}\PY{n+nb}{len}\PY{p}{(}\PY{n}{sorted\PYZus{}diff\PYZus{}value}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{} Devide the asset class in three categories: bin1, bin2 and \PYZsq{}bin3\PYZsq{}}
+    \PY{n}{bin1}\PY{o}{=}\PY{p}{[}\PY{n}{v}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{k}{for} \PY{n}{v} \PY{o+ow}{in} \PY{n}{sorted\PYZus{}diff\PYZus{}value}\PY{p}{[}\PY{p}{:}\PY{n+nb}{round}\PY{p}{(}\PY{n}{N}\PY{o}{/}\PY{l+m+mi}{3}\PY{p}{)}\PY{p}{]}\PY{p}{]}
+    \PY{n}{bin2}\PY{o}{=}\PY{p}{[}\PY{n}{v}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{k}{for} \PY{n}{v} \PY{o+ow}{in} \PY{n}{sorted\PYZus{}diff\PYZus{}value}\PY{p}{[}\PY{n+nb}{round}\PY{p}{(}\PY{n}{N}\PY{o}{/}\PY{l+m+mi}{3}\PY{p}{)}\PY{p}{:}\PY{n+nb}{round}\PY{p}{(}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{N}\PY{o}{/}\PY{l+m+mi}{3}\PY{p}{)}\PY{p}{]}\PY{p}{]}
+    \PY{n}{bin3}\PY{o}{=}\PY{p}{[}\PY{n}{v}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{k}{for} \PY{n}{v} \PY{o+ow}{in} \PY{n}{sorted\PYZus{}diff\PYZus{}value}\PY{p}{[}\PY{n+nb}{round}\PY{p}{(}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{N}\PY{o}{/}\PY{l+m+mi}{3}\PY{p}{)}\PY{p}{:} \PY{n}{N}\PY{p}{]}\PY{p}{]}
+    \PY{k}{return} \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bin1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{bin1}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bin2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{bin2}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bin3}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{bin3}\PY{p}{\PYZcb{}}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{itemize}
+\tightlist
+\item
+  Splitting the original portfolio into sub-portfolios
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+%\prompt{In}{incolor}{76}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{bins}\PY{o}{=} \PY{n}{TDA\PYZus{}EI}\PY{p}{(}\PY{n}{asset\PYZus{}returns}\PY{p}{,} \PY{n}{tickers}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{H1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{,} \PY{n}{d1}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{,} \PY{n}{d}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{tho}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{bins}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+\{'bin1': ['GLE.PA', 'ML.PA', 'ENGI.PA', 'TEP.PA', 'EN.PA', 'BNP.PA', 'VIE.PA',
+'CA.PA', 'KER.PA', 'SU.PA'], 'bin2': ['MC.PA', 'VIV.PA', 'FP.PA', 'DG.PA',
+'LR.PA', 'BN.PA', 'OR.PA', 'CAP.PA', 'AI.PA', 'SAN.PA'], 'bin3': ['RI.PA',
+'ATO.PA', 'ORA.PA', 'AIR.PA', 'AC.PA', 'UG.PA', 'SW.PA', 'SGO.PA', 'ACA.PA',
+'HO.PA']\}
+    \end{Verbatim}
+
+    \hypertarget{financial-analysis-of-tda-portfolios}{%
+\section{Financial analysis of TDA
+portfolios}\label{financial-analysis-of-tda-portfolios}}
+
+In the rest of this paper, we will compare the risk and portfolio's
+return of bin1 and bin3 and ignore bin2 which can be seen as an
+intermediate portfolio.
+
+We will see that
+
+\begin{itemize}
+\tightlist
+\item
+  bin1 is suitable for people with high-risk profile
+\item
+  bin3 is suitable for people with low-risk profile
+\end{itemize}
+
+\hypertarget{risk-analysis}{%
+\subsection{Risk analysis}\label{risk-analysis}}
+
+\hypertarget{computing-the-risk-cvar-of-stocks-per-portfolio}{%
+\subsubsection{Computing the risk (CVaR) of stocks per
+portfolio}\label{computing-the-risk-cvar-of-stocks-per-portfolio}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+%\prompt{In}{incolor}{77}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{scipy}\PY{n+nn}{.}\PY{n+nn}{stats} \PY{k+kn}{import} \PY{n}{norm}
+
+\PY{c+c1}{\PYZsh{} The conditional value at risk (CVaR) function of a single asset}
+\PY{k}{def} \PY{n+nf}{CVar}\PY{p}{(}\PY{n}{asset\PYZus{}return}\PY{p}{,} \PY{n}{conf}\PY{o}{=}\PY{l+m+mf}{0.95}\PY{p}{)}\PY{p}{:}
+    \PY{n}{loss}\PY{o}{=} \PY{o}{\PYZhy{}}\PY{n}{asset\PYZus{}return}
+    \PY{c+c1}{\PYZsh{} Compute the mean and the variance of the portfolio}
+    \PY{n}{pm}\PY{o}{=}\PY{n}{loss}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+    \PY{n}{ps}\PY{o}{=}\PY{n}{loss}\PY{o}{.}\PY{n}{std}\PY{p}{(}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{} Compute the conf\PYZpc{} VaR using .ppf()}
+    \PY{n}{VaR\PYZus{}conf} \PY{o}{=} \PY{n}{norm}\PY{o}{.}\PY{n}{ppf}\PY{p}{(}\PY{n}{conf}\PY{p}{,} \PY{n}{loc} \PY{o}{=} \PY{n}{pm}\PY{p}{,} \PY{n}{scale} \PY{o}{=} \PY{n}{ps}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{} Compute the expected tail loss and the CVaR in the worst 5\PYZpc{} of cases}
+    \PY{n}{tail\PYZus{}loss} \PY{o}{=} \PY{n}{norm}\PY{o}{.}\PY{n}{expect}\PY{p}{(}\PY{k}{lambda} \PY{n}{x}\PY{p}{:} \PY{n}{x}\PY{p}{,} \PY{n}{loc} \PY{o}{=} \PY{n}{pm}\PY{p}{,} \PY{n}{scale} \PY{o}{=} \PY{n}{ps}\PY{p}{,} \PY{n}{lb} \PY{o}{=} \PY{n}{VaR\PYZus{}conf} \PY{p}{)}
+    \PY{n}{CVar\PYZus{}conf} \PY{o}{=} \PY{p}{(}\PY{l+m+mi}{1} \PY{o}{/} \PY{p}{(}\PY{l+m+mi}{1} \PY{o}{\PYZhy{}} \PY{n}{conf}\PY{p}{)}\PY{p}{)} \PY{o}{*} \PY{n}{tail\PYZus{}loss}
+    \PY{k}{return} \PY{n}{CVar\PYZus{}conf}
+
+\PY{c+c1}{\PYZsh{} The conditional value at risk (CVaR) function of a portfolio}
+\PY{k}{def} \PY{n+nf}{CVar\PYZus{}portfolio}\PY{p}{(}\PY{n}{tickers}\PY{p}{,} \PY{n}{asset\PYZus{}returns}\PY{p}{,} \PY{n}{conf}\PY{o}{=}\PY{l+m+mf}{0.95}\PY{p}{)}\PY{p}{:}
+    \PY{n}{CVar\PYZus{}portfolio}\PY{o}{=}\PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+    \PY{k}{for} \PY{n}{asset} \PY{o+ow}{in} \PY{n}{tickers}\PY{p}{:}
+        \PY{n}{asset\PYZus{}return}\PY{o}{=} \PY{n}{asset\PYZus{}returns}\PY{p}{[}\PY{n}{asset}\PY{p}{]}
+        \PY{n}{CVar\PYZus{}portfolio}\PY{p}{[}\PY{n}{asset}\PY{p}{]}\PY{o}{=}\PY{n}{CVar}\PY{p}{(}\PY{n}{asset\PYZus{}return}\PY{p}{,} \PY{n}{conf}\PY{p}{)}
+    \PY{k}{return} \PY{n}{CVar\PYZus{}portfolio}
+
+\PY{c+c1}{\PYZsh{} Computing the conditional values at risk (CVaR) of the different assets in each portfolio      }
+\PY{n}{CVar\PYZus{}Bin1}\PY{o}{=} \PY{n}{CVar\PYZus{}portfolio}\PY{p}{(}\PY{n}{bins}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bin1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{asset\PYZus{}returns}\PY{p}{)} 
+\PY{n}{CVar\PYZus{}Bin2}\PY{o}{=} \PY{n}{CVar\PYZus{}portfolio}\PY{p}{(}\PY{n}{bins}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bin2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{asset\PYZus{}returns}\PY{p}{)} 
+\PY{n}{CVar\PYZus{}Bin3}\PY{o}{=} \PY{n}{CVar\PYZus{}portfolio}\PY{p}{(}\PY{n}{bins}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bin3}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{asset\PYZus{}returns}\PY{p}{)} 
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{representation-of-cvar-of-assets-per-sub-portfolios}{%
+\subsubsection{Representation of CVaR of assets per
+sub-portfolios}\label{representation-of-cvar-of-assets-per-sub-portfolios}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+%\prompt{In}{incolor}{90}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{lists1} \PY{o}{=} \PY{n+nb}{sorted}\PY{p}{(}\PY{n}{CVar\PYZus{}Bin1}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{)} \PY{c+c1}{\PYZsh{} sorted by key, return a list of tuples}
+\PY{n}{x1}\PY{p}{,} \PY{n}{y1} \PY{o}{=} \PY{n+nb}{zip}\PY{p}{(}\PY{o}{*}\PY{n}{lists1}\PY{p}{)}
+
+
+\PY{n}{lists2} \PY{o}{=} \PY{n+nb}{sorted}\PY{p}{(}\PY{n}{CVar\PYZus{}Bin2}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{)} \PY{c+c1}{\PYZsh{} sorted by key, return a list of tuples}
+\PY{n}{x2}\PY{p}{,} \PY{n}{y2} \PY{o}{=} \PY{n+nb}{zip}\PY{p}{(}\PY{o}{*}\PY{n}{lists2}\PY{p}{)}
+
+\PY{n}{lists3} \PY{o}{=} \PY{n+nb}{sorted}\PY{p}{(}\PY{n}{CVar\PYZus{}Bin3}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{)} \PY{c+c1}{\PYZsh{} sorted by key, return a list of tuples}
+\PY{n}{x3}\PY{p}{,} \PY{n}{y3} \PY{o}{=} \PY{n+nb}{zip}\PY{p}{(}\PY{o}{*}\PY{n}{lists3}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{style}\PY{o}{.}\PY{n}{use}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{seaborn}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x1}\PY{p}{,} \PY{n}{y1}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bin1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x2}\PY{p}{,} \PY{n}{y2}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bin2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x3}\PY{p}{,} \PY{n}{y3}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bin3}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{loc}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{CVaR}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)} 
+\PY{n}{plt}\PY{o}{.}\PY{n}{xticks}\PY{p}{(}\PY{p}{[}\PY{p}{]}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_29_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{computing-the-risk-mean-per-sub-portfolios}{%
+\subsubsection{Computing the risk mean per
+sub-portfolios}\label{computing-the-risk-mean-per-sub-portfolios}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+%\prompt{In}{incolor}{92}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{numpy} \PY{k+kn}{import} \PY{n}{array}
+\PY{n}{CVar\PYZus{}risk1}\PY{o}{=}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{CVar\PYZus{}Bin1}\PY{p}{[}\PY{n}{k}\PY{p}{]} \PY{k}{for} \PY{n}{k} \PY{o+ow}{in} \PY{n}{CVar\PYZus{}Bin1}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+\PY{n}{CVar\PYZus{}risk2}\PY{o}{=}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{CVar\PYZus{}Bin2}\PY{p}{[}\PY{n}{k}\PY{p}{]} \PY{k}{for} \PY{n}{k} \PY{o+ow}{in} \PY{n}{CVar\PYZus{}Bin2}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+\PY{n}{CVar\PYZus{}risk3}\PY{o}{=}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{CVar\PYZus{}Bin3}\PY{p}{[}\PY{n}{k}\PY{p}{]} \PY{k}{for} \PY{n}{k} \PY{o+ow}{in} \PY{n}{CVar\PYZus{}Bin3}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{CVaR mean of bin1:}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{CVar\PYZus{}risk1}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{CVaR mean of bin2:}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{CVar\PYZus{}risk2}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{CVaR mean of bin3:}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{CVar\PYZus{}risk3}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CVaR mean of bin1: 0.037135837048476866
+CVaR mean of bin2: 0.030226966973985865
+CVaR mean of bin3: 0.03723000647791284
+    \end{Verbatim}
+
+    We deduce from this risk analysis that even if bin1 tends to have lower
+risk mean than bin3, the plot shows that the CVaR in bin1 is relatively
+high (for all its assets) while the dispersion of risk values in bin3 is
+higher. In other words, it is less risky to invest on bin3 than
+investing on bin1.
+
+    \hypertarget{portfolio-optimization}{%
+\subsection{Portfolio optimization}\label{portfolio-optimization}}
+
+In this part, we compute the portfolio weights in bin1 and bin3. Then we
+compute the expected return of these sub-portfolios.
+
+\hypertarget{building-portfolio-weight}{%
+\subsubsection{Building portfolio
+weight}\label{building-portfolio-weight}}
+
+The goal is to solve the optimization problem ( see {[}3{]} for a
+complete description )
+
+\[ \underset{w}{min} \underset{t=1}{\overset{d_1 -20}{\Sigma}}  \underset{t=1}{\overset{n}{\Sigma}} |N_{it}w_i-N_t|\]
+subject to
+\[\underset{i=1}{\overset{n}{\Sigma}}\mu_i w_i -\mu_I \geq r^*\],
+\[ \underset{i=1}{\overset{n}{\Sigma}}w_i =1,\]
+
+\[w_i \geq 0, i=1,..., n\]
+
+where - \(N_t:\) the TDA-norm of the benchmark index - \(N_{it}:\) the
+TDA-norm of the benchmark asset \(i, i=1,..., n\) - \(\mu_I:\) the
+expected return from the benchmark index -
+\(\mu_i= \frac{1}{d_1} \Sigma_{t=1}^{d_1} x_{it}:\) the expected return
+from the benchmark asset \(i\) in the \(d_1\) days of the sample period
+- \(r^{*}\) is the desired return over the above benchmark return from
+the portfolio
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+%\prompt{In}{incolor}{80}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Optimisation: optimal weight function}
+\PY{k}{def} \PY{n+nf}{optimal\PYZus{}weight}\PY{p}{(}\PY{n}{Bin}\PY{p}{,} \PY{n}{asset\PYZus{}returns}\PY{p}{,}\PY{n}{index}\PY{p}{,} \PY{n}{dim}\PY{p}{,} \PY{n}{p}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,}\PY{n}{r}\PY{o}{=}\PY{l+m+mf}{0.02}\PY{p}{)}\PY{p}{:}
+    \PY{n}{Bin}\PY{o}{=}\PY{n}{Bin}
+    \PY{n}{mu\PYZus{}assets}\PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{asset\PYZus{}returns}\PY{p}{[}\PY{n}{Bin}\PY{p}{]}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+    \PY{n}{mu\PYZus{}index} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{asset\PYZus{}returns}\PY{p}{[}\PY{n}{index}\PY{p}{]}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+    \PY{n}{Norm\PYZus{}data}\PY{o}{=} \PY{n}{norm\PYZus{}data}\PY{p}{(}\PY{n}{asset\PYZus{}returns}\PY{p}{[}\PY{n}{Bin}\PY{p}{]}\PY{p}{,} \PY{n}{dim}\PY{p}{,} \PY{n}{Bin}\PY{p}{)}
+    \PY{n}{N}\PY{o}{=} \PY{n}{lp\PYZus{}norm\PYZus{}series}\PY{p}{(}\PY{n}{asset\PYZus{}returns}\PY{p}{[}\PY{n}{index}\PY{p}{]}\PY{p}{,} \PY{n}{p}\PY{p}{)}\PY{p}{[}\PY{n}{dim}\PY{p}{]} 
+    
+    \PY{c+c1}{\PYZsh{} Definition of constraints}
+    \PY{k}{def} \PY{n+nf}{constraint1}\PY{p}{(}\PY{n}{w}\PY{p}{)}\PY{p}{:}
+        \PY{k}{return} \PY{n}{mu\PYZus{}assets}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{n}{w}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{n}{mu\PYZus{}index}\PY{o}{\PYZhy{}}\PY{n}{r}
+    \PY{k}{def} \PY{n+nf}{constraint2}\PY{p}{(}\PY{n}{w}\PY{p}{)}\PY{p}{:}
+        \PY{k}{return} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{w}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}
+    \PY{n}{con1}\PY{o}{=} \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{type}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ineq}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{fun}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{n}{constraint1}\PY{p}{\PYZcb{}}
+    \PY{n}{con2}\PY{o}{=} \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{type}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{eq}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{fun}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{n}{constraint2}\PY{p}{\PYZcb{}}
+    \PY{n}{cons}\PY{o}{=} \PY{p}{[}\PY{n}{con1}\PY{p}{,} \PY{n}{con2}\PY{p}{]}
+    
+    \PY{c+c1}{\PYZsh{} definition of bounds}
+    \PY{n}{zeros}\PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{Bin}\PY{p}{)}\PY{p}{)}
+    \PY{n}{ones}\PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{ones}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{Bin}\PY{p}{)}\PY{p}{)}
+    \PY{n}{bounds} \PY{o}{=} \PY{n}{Bounds}\PY{p}{(}\PY{n}{zeros}\PY{o}{.}\PY{n}{tolist}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{ones}\PY{o}{.}\PY{n}{tolist}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+    
+    \PY{c+c1}{\PYZsh{} Objective function for optimisation}
+    \PY{k}{def} \PY{n+nf}{ETDA\PYZus{}func}\PY{p}{(}\PY{n}{w}\PY{p}{)}\PY{p}{:}
+        \PY{n}{part}\PY{o}{=}\PY{l+m+mi}{0}
+        \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{Bin}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+            \PY{n}{norm}\PY{o}{=}\PY{n}{Norm\PYZus{}data}\PY{p}{[}\PY{n}{Bin}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{]}
+            \PY{n}{part}\PY{o}{+}\PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{n}{norm}\PY{o}{*}\PY{n}{w}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{\PYZhy{}}\PY{n}{N}\PY{p}{)}\PY{p}{)}
+        \PY{k}{return} \PY{n}{part}
+    
+    \PY{c+c1}{\PYZsh{} Optimisation}
+    \PY{n}{w0}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{ones}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{Bin}\PY{p}{)}\PY{p}{)}
+    \PY{n}{sol}\PY{o}{=} \PY{n}{minimize}\PY{p}{(}\PY{n}{ETDA\PYZus{}func}\PY{p}{,} \PY{n}{w0}\PY{p}{,} \PY{n}{method}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SLSQP}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{bounds}\PY{o}{=}\PY{n}{bounds}\PY{p}{,} \PY{n}{constraints}\PY{o}{=} \PY{n}{cons}\PY{p}{)}
+    
+    \PY{k}{return} \PY{n}{sol}\PY{o}{.}\PY{n}{x}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+%\prompt{In}{incolor}{85}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} We assume in this paper that r=0}
+\PY{n}{weight\PYZus{}bin1}\PY{o}{=}\PY{n}{optimal\PYZus{}weight}\PY{p}{(}\PY{n}{bins}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bin1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{asset\PYZus{}returns}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZca{}FCHI}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{H1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{)}
+\PY{n}{weight\PYZus{}bin3}\PY{o}{=}\PY{n}{optimal\PYZus{}weight}\PY{p}{(}\PY{n}{bins}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bin3}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{asset\PYZus{}returns}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZca{}FCHI}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{H1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+%\prompt{In}{incolor}{91}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{weight for bin1:}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{weight\PYZus{}bin1}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{weight for bin3:}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{weight\PYZus{}bin3}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+weight for bin1: [4.04002103e-05 3.64094537e-04 2.65729927e-03 8.56415312e-04
+ 1.12546878e-03 1.06023060e-04 2.99057950e-03 2.12413177e-03
+ 9.54150575e-01 3.55850126e-02]
+weight for bin3: [9.90907663e-01 6.24142404e-04 1.60937350e-03 1.72645434e-04
+ 8.20194429e-04 1.24489715e-05 3.87459882e-03 7.90584201e-04
+ 3.65140800e-05 1.15183497e-03]
+    \end{Verbatim}
+
+    \hypertarget{building-portfolio-returns}{%
+\subsubsection{Building portfolio
+returns}\label{building-portfolio-returns}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+%\prompt{In}{incolor}{88}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Portfolio return}
+\PY{n}{return\PYZus{}bin1}\PY{o}{=}\PY{n}{asset\PYZus{}returns}\PY{p}{[}\PY{n}{bins}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bin1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{n}{weight\PYZus{}bin1}\PY{p}{)}
+\PY{n}{return\PYZus{}bin3}\PY{o}{=}\PY{n}{asset\PYZus{}returns}\PY{p}{[}\PY{n}{bins}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bin3}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{n}{weight\PYZus{}bin3}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Cumulative portfolio returns}
+\PY{n}{cumulative\PYZus{}ret\PYZus{}bin1} \PY{o}{=} \PY{p}{(}\PY{p}{(}\PY{n}{return\PYZus{}bin1}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)}\PY{o}{.}\PY{n}{cumprod}\PY{p}{(}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{cumulative\PYZus{}ret\PYZus{}bin3} \PY{o}{=} \PY{p}{(}\PY{p}{(}\PY{n}{return\PYZus{}bin3}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)}\PY{o}{.}\PY{n}{cumprod}\PY{p}{(}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Plotting cumulative returns}
+\PY{n}{plt}\PY{o}{.}\PY{n}{style}\PY{o}{.}\PY{n}{use}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ggplot}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{cumulative\PYZus{}ret\PYZus{}bin1}\PY{p}{)}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bin1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{cumulative\PYZus{}ret\PYZus{}bin3}\PY{p}{)}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bin3}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{cumulative returns}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{22}\PY{p}{)} 
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{CaC40 index}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xticks}\PY{p}{(}\PY{p}{[}\PY{p}{]}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_38_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    It appears that portfolio bin1 has higher return than portfolio bin2.
+
+    \hypertarget{comparing-tda-portfolios-with-the-cac40-index}{%
+\section{Comparing TDA portfolios with the CaC40
+index}\label{comparing-tda-portfolios-with-the-cac40-index}}
+
+The question to be ask after our TDA analysis is the following: Did we
+finally beat the CaC40 index with our approach?
+
+To answer to this question, we will represent on a single plot the
+cummulative returns of the three portfolios: bin1, bin3 and the CaC40
+index.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+%\prompt{In}{incolor}{87}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{cumulative\PYZus{}ret\PYZus{}index}\PY{o}{=}\PY{p}{(}\PY{p}{(}\PY{n}{asset\PYZus{}returns}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZca{}FCHI}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)}\PY{o}{.}\PY{n}{cumprod}\PY{p}{(}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Plotting cumulative returns}
+\PY{n}{plt}\PY{o}{.}\PY{n}{style}\PY{o}{.}\PY{n}{use}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ggplot}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{cumulative\PYZus{}ret\PYZus{}bin1}\PY{p}{)}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bin1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{cumulative\PYZus{}ret\PYZus{}bin3}\PY{p}{)}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bin3}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{cumulative\PYZus{}ret\PYZus{}index}\PY{p}{)}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{cac40 index}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{cumulative returns}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{22}\PY{p}{)} 
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Comparison between three portfolio returns}\PY{l+s+s1}{\PYZsq{}} \PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xticks}\PY{p}{(}\PY{p}{[}\PY{p}{]}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_41_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    This plot above shows that the portfolios bin1 and bin3 beat the
+benchmark index by generating higher profit.
+
+\hypertarget{conclusion}{%
+\section{Conclusion}\label{conclusion}}
+
+In this report, we used topological methods to propose an investment
+strategy on the CaC40 index. We have extracted from the CaC40 index two
+sub-portfolios which have better returns than the underlying benchmark
+index. More precisely, instead of investing on the whole CaC40 index, we
+would recommend the following investment strategy according to you risk
+appetite:
+
+\begin{itemize}
+\tightlist
+\item
+  If your have a high-risk profile, then you should invest (under the
+  above sugested proportions) on bin1: Soci\'{e}t\'{e} G\'{e}n\'{e}rale, Michelin,
+  Engie, Teleperformance, Bouygues, BNP Paribas, Veolia Environ,
+  Carrefour, Kering, and finally Schneider Electric.
+\end{itemize}
+
+As shown in this analysis, the risk is relatively high on this portfolio
+but the return is be much higher than that of other portfolios including
+the benchmark index.
+
+\begin{itemize}
+\tightlist
+\item
+  If you have a low-risk profile, then you should invest (under the
+  above sugested proportions) on bin3: Pernod Ricard, Atos, Orange,
+  Airbus, Accor, Peugeot, Sodexo, Saint-Gobain, Cr\'{e}dit Agricole and
+  finally Thales.
+\end{itemize}
+
+This latter portfolio is less risky than bin1. The return is not that
+high but it is still benefict to invest on this one than the benchmark
+index.
+
+Note that our recommendations do not take into account the current
+situation and a wise investor should also track the financial (S1,S2 and
+annual) reports of these companies.
+
+    \hypertarget{declaration-of-competing-interest}{%
+\section{Declaration of Competing
+Interest}\label{declaration-of-competing-interest}}
+
+The author declares that he has no known competing financial interests
+or personal relationships that could have appeared to influence the work
+reported in this tutorial.
+
+    \hypertarget{perspectives}{%
+\section{Perspectives}\label{perspectives}}
+
+What else can we do after this investigation?
+
+\begin{itemize}
+\item
+  It is possible to compare the performance of our strategy with the
+  traditional enhanced indexing methods such as Excess Mean Return. A
+  research in this direction was done in {[}3{]};
+\item
+  This approach can be used on other stock indexes and any existing
+  portfolio. If you are a portfolio manager, then you can empirically
+  compare our approach with your own strategy and then broaden you
+  management tools.
+\item
+  If you think the returns we got in this analysis were not high enough,
+  then you can tun the meta parameters such as d (taken embedding
+  dimension) and p (for the \(L^p\) norm) and all others. By this
+  process, you could increase the profit.
+\end{itemize}
+
+    \hypertarget{references}{%
+\section{References}\label{references}}
+
+    {[}1{]} Peter Bubenik. Statistical topological data analysis using
+persistence land- scapes. The Journal of Machine Learning Research,
+16(1):77--102, 2015.
+
+{[}2{]} Marian Gidea and Yuri Katz. Topological data analysis of
+financial time series: Landscapes of crashes. Physica A: Statistical
+Mechanics and its Ap- plications, 491:820--834, 2018.
+
+{[}3{]} Anubha Goel, Puneet Pasricha, and Aparna Mehra. Topological data
+analysis in investment decisions. Expert Systems with Applications,
+147:113222, 2020.
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
